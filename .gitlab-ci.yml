@@ -26,7 +26,7 @@ deploy:
   script:
     - npm install -g vercel@41.5.0
     - vercel --version
-    - vercel link --token $VERCEL_TOKEN --project $VERCEL_PROJECT_ID
+    - vercel link --token $VERCEL_TOKEN --project $VERCEL_PROJECT_ID --yes
     - vercel deploy --token $VERCEL_TOKEN --prod
   dependencies:
     - build
