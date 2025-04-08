@@ -24,8 +24,10 @@ deploy:
   stage: deploy
   image: node:22
   script:
-    - npm install -g vercel
-    - vercel --token $VERCEL_TOKEN --project $VERCEL_PROJECT_ID --org $VERCEL_ORG_ID --prod
+    - npm install -g vercel@41.5.0
+    - vercel --version
+    - vercel link --token $VERCEL_TOKEN --project $VERCEL_PROJECT_ID --scope $VERCEL_ORG_ID --yes # Link the project
+    - vercel deploy --token $VERCEL_TOKEN --prod
   dependencies:
     - build
   rules:
