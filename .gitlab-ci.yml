@@ -1,0 +1,32 @@
+stages:
+  - build
+  - deploy
+
+variables:
+  VERCEL_TOKEN: "KYxXHsFrzuZOsp5a0WBKUOfA"
+  VERCEL_PROJECT_ID: "prj_D6STty69mRRtT1lxnsgxeJXHU46N"
+  VERCEL_ORG_ID: "I5PSqK2hT9xv3zozLwDvaXWP"
+
+build:
+  stage: build
+  image: node:22
+  script:
+    - npm install
+    - npm run build
+  artifacts:
+    paths:
+      - .next/
+      - node_modules/
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "production" || $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "production"'
+
+deploy:
+  stage: deploy
+  image: node:22
+  script:
+    - npm install -g vercel
+    - vercel --token $VERCEL_TOKEN --project $VERCEL_PROJECT_ID --org $VERCEL_ORG_ID --prod
+  dependencies:
+    - build
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "production" || $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "production"'
