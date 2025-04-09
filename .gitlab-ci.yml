@@ -20,6 +20,17 @@ build:
   rules:
     - if: '$CI_COMMIT_BRANCH == "production" || $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "production"'
 
+test:
+  stage: test
+  image: node:22
+  script:
+    - npm install
+    - npm run test
+  dependencies:
+    - build
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "production" || $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "production"'
+
 deploy:
   stage: deploy
   image: node:22
@@ -29,6 +40,6 @@ deploy:
     - vercel link --token $VERCEL_TOKEN --project $VERCEL_PROJECT_ID --yes
     - vercel deploy --token $VERCEL_TOKEN --prod
   dependencies:
-    - build
+    - test
   rules:
     - if: '$CI_COMMIT_BRANCH == "production" || $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "production"'
