@@ -1,6 +1,6 @@
 import "@testing-library/jest-dom";
 
-import { fireEvent, render, screen } from "@testing-library/react";
+// import { fireEvent, render, screen } from "@testing-library/react";
 
 function sum(a: number, b: number): number {
   return a + b;
