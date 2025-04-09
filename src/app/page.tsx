@@ -25,10 +25,10 @@ export default async function Home() {
           <li className="tracking-[-.01em]">
             Save and see your changes instantly.
           </li>
-          {session && (
+          {session?.user && (
             <li className="tracking-[-.01em]">
-              You are logged in as{" "}
-              <span className="font-semibold">{session.user.username}</span>.
+              You are logged in as {/* @ts-expect-error Server Component */ ""}
+              <span className="font-semibold">{session?.user?.username}</span>.
             </li>
           )}
         </ol>

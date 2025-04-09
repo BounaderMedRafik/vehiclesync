@@ -1,22 +1,18 @@
-import NextAuth, { AuthOptions } from "next-auth";
+import NextAuth, { NextAuthConfig } from "next-auth";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { prisma } from "@/data/prisma";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { saltAndHashPassword } from "@/lib/password";
 import { getUserFromDb } from "@/data/db-actions";
 
-export const authOptions: AuthOptions = {
+export const authOptions: NextAuthConfig = {
   adapter: PrismaAdapter(prisma),
   providers: [
     CredentialsProvider({
       name: "Credentials",
       credentials: {
-        username: {
-          label: "Username",
-          type: "text",
-          placeholder: "Enter your username",
-        },
-        password: { label: "Password", type: "password" },
+        username: {},
+        password: {},
       },
       async authorize(credentials) {
         if (!credentials?.username || !credentials?.password) {
@@ -25,9 +21,12 @@ export const authOptions: AuthOptions = {
 
         console.log(`Passowrd: ${credentials.password}`);
 
-        const pwHash = saltAndHashPassword(credentials.password);
+        const pwHash = saltAndHashPassword(credentials.password as string);
 
-        const user = await getUserFromDb(credentials.username, pwHash);
+        const user = await getUserFromDb(
+          credentials.username as string,
+          pwHash
+        );
 
         if (!user) {
           return null;
@@ -44,14 +43,16 @@ export const authOptions: AuthOptions = {
     signIn: "/auth/signin",
   },
   callbacks: {
-    async jwt({ token, user }) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    async jwt({ token, user }: any) {
       if (user) {
         token.id = user.id;
         token.username = user.username;
       }
       return token;
     },
-    async session({ session, token }) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    async session({ session, token }: any) {
       if (token) {
         session.user.id = token.id;
         session.user.username = token.username;
