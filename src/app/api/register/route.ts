@@ -12,7 +12,7 @@ export async function POST(request: Request) {
 
     if (!username || !password) {
       return NextResponse.json(
-        { message: "Username and password are required" },
+        { error: "Username and password are required" },
         { status: 400 }
       );
     }
@@ -23,7 +23,7 @@ export async function POST(request: Request) {
 
     if (userByUsername) {
       return NextResponse.json(
-        { message: "Username already exists" },
+        { error: "Username already exists" },
         { status: 400 }
       );
     }
@@ -34,7 +34,7 @@ export async function POST(request: Request) {
       });
       if (userByEmail) {
         return NextResponse.json(
-          { message: "Email already exists" },
+          { error: "Email already exists" },
           { status: 400 }
         );
       }
@@ -51,7 +51,7 @@ export async function POST(request: Request) {
     });
     if (!user) {
       return NextResponse.json(
-        { message: "Failed to create user" },
+        { error: "Failed to create user" },
         { status: 500 }
       );
     }
@@ -63,7 +63,7 @@ export async function POST(request: Request) {
   } catch (error) {
     console.error("Error creating user:", error);
     return NextResponse.json(
-      { message: "Failed to create user" },
+      { error: "Failed to create user" },
       { status: 500 }
     );
   } finally {
