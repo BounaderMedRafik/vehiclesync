@@ -14,12 +14,12 @@ import Image from "next/image";
 const items = [
   {
     title: "Home",
-    url: "#",
+    url: "/dashboard",
     icon: Home,
   },
   {
     title: "Garage",
-    url: "#",
+    url: "/dashboard/garage",
     icon: Car,
   },
   {

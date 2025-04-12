@@ -5,6 +5,7 @@ import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/AppSidebar";
 import { auth } from "@/lib/auth";
 import { DashboardTopBar } from "@/components/DashboardTopBar";
+import { SessionProvider } from "next-auth/react";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -20,16 +21,18 @@ export default async function RootLayout({
   if (session) {
     return (
       <>
-        <DashboardTopBar />
+        <SessionProvider session={session}>
+          <DashboardTopBar />
 
-        <SidebarProvider>
-          <AppSidebar />
-          <main className="w-full">
-            <SidebarTrigger />
-            {children}
-            <Toaster />
-          </main>
-        </SidebarProvider>
+          <SidebarProvider>
+            <AppSidebar />
+            <main className="w-full">
+              <SidebarTrigger />
+              {children}
+              <Toaster />
+            </main>
+          </SidebarProvider>
+        </SessionProvider>
       </>
     );
   }
