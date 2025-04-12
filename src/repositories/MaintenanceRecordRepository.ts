@@ -10,7 +10,15 @@ export default class MaintenanceRecordRepository extends BaseRepository<Maintena
     this.vehicleRepository = new VehicleRepository();
   }
 
-  async getYTDTotalForAllByUser(userId: string): Promise<number> {
+  getAllByVehicle(vehicleId: string): Promise<MaintenanceRecord[]> {
+    return this.getAll({
+      where: {
+        vehicleId,
+      },
+    });
+  }
+
+  async getYTDTotalByUser(userId: string): Promise<number> {
     const userVehicles = await this.vehicleRepository.getAll({
       where: {
         userId,
@@ -29,6 +37,16 @@ export default class MaintenanceRecordRepository extends BaseRepository<Maintena
         },
       },
     });
+    return records.reduce((acc, record) => acc + record.amount, 0);
+  }
+
+  async getYTDTotalByVehicle(vehicleId: string): Promise<number> {
+    const records = await this.getAllByVehicle(vehicleId);
+
+    if (records.length == 0) {
+      return Promise.resolve(0);
+    }
+
     return records.reduce((acc, record) => acc + record.amount, 0);
   }
 }

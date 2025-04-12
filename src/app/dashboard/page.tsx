@@ -4,37 +4,27 @@ import ExpenseByVehicle from "@/components/ExpenseByVehicle";
 import { auth } from "@/lib/auth";
 import { VehicleExpenseData } from "@/models/VehicleExpenseData";
 import MaintenanceRecordRepository from "@/repositories/MaintenanceRecordRepository";
-import { randomUUID } from "crypto";
 import React from "react";
 import { redirect } from "next/navigation";
+import { getVehicleExpenseData } from "@/services/VehicleService";
+import VehicleRepository from "@/repositories/VehicleRepository";
 
 const DashboardHome = async () => {
   const maintenanceRecordRepository = new MaintenanceRecordRepository();
+  const vehicleRepository = new VehicleRepository();
   const session = await auth();
+
+  if (!session?.user) redirect("/");
   //TODO: fetch this from a repository
-  const vehicleData: VehicleExpenseData[] = [
-    {
-      vehicleId: randomUUID(),
-      vehicleName: "2023 Ford Car",
-      vehicleTotal: 452,
-    },
-    {
-      vehicleId: randomUUID(),
-      vehicleName: "2023 Ford Car",
-      vehicleTotal: 452,
-    },
-    {
-      vehicleId: randomUUID(),
-      vehicleName: "2023 Ford Car",
-      vehicleTotal: 452,
-    },
-  ];
+  const vehicles = await vehicleRepository.getAllByUserId(
+    session?.user?.id as string
+  );
 
-  if (!session?.user) {
-    redirect("/");
-  }
+  const vehicleData: VehicleExpenseData[] = await getVehicleExpenseData(
+    vehicles
+  );
 
-  const ytdTotal = await maintenanceRecordRepository.getYTDTotalForAllByUser(
+  const ytdTotal = await maintenanceRecordRepository.getYTDTotalByUser(
     session?.user?.id as string
   );
 

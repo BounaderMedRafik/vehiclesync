@@ -6,4 +6,12 @@ export default class VehicleRepository extends BaseRepository<Vehicle> {
   constructor() {
     super(prisma.vehicle);
   }
+
+  getAllByUserId(userId: string): Promise<Vehicle[]> {
+    return this.getAll({
+      where: {
+        userId,
+      },
+    });
+  }
 }
