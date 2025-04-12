@@ -1,7 +1,7 @@
 import { type PrismaClient } from "@prisma/client/extension";
 
 const DEFAULT_ORDER_BY = {
-  created_at: "desc",
+  createdAt: "desc",
 };
 
 const MAX_RECORDS_LIMIT = 100;
@@ -28,7 +28,7 @@ export default abstract class BaseRepository<T> {
     });
   }
 
-  create(data: T): Promise<T> {
+  create(data: Omit<T, "id" | "createdAt" | "updatedAt">): Promise<T> {
     return this.modelClient.create({
       data,
     });
@@ -42,12 +42,18 @@ export default abstract class BaseRepository<T> {
     });
   }
 
-  update(id: string, data: T): Promise<T> {
+  update(
+    id: string,
+    data: Omit<T, "id" | "createdAt" | "updatedAt">
+  ): Promise<T> {
     return this.modelClient.update({
       where: {
         id,
       },
       data,
     });
+  }
+  deleteAll(): Promise<T> {
+    return this.modelClient.deleteMany({});
   }
 }

@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import { saltAndHashPassword } from "@/lib/password";
 import UserRepository from "@/repositories/UserRepository";
-import { randomUUID } from "crypto";
 export async function POST(request: Request) {
   const userRepository = new UserRepository();
   try {
@@ -39,12 +38,9 @@ export async function POST(request: Request) {
     const hashedPassword = await saltAndHashPassword(password);
 
     const user = await userRepository.create({
-      id: randomUUID(),
       username,
       email: email || null,
       password: hashedPassword,
-      createdAt: new Date(Date.now()),
-      updatedAt: new Date(Date.now()),
     });
 
     if (!user) {
