@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
-import { User } from "lucide-react";
 import { Toaster } from "@/components/ui/sonner";
 import "@/app/globals.css";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/AppSidebar";
 import { auth } from "@/lib/auth";
+import { DashboardTopBar } from "@/components/DashboardTopBar";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -20,13 +20,8 @@ export default async function RootLayout({
   if (session) {
     return (
       <>
-        <div>
-          <div className="flex items-center justify-end p-4 bg-foreground text-white">
-            <div className="flex items-center space-x-4">
-              <User className="w-6 h-6" />
-            </div>
-          </div>
-        </div>
+        <DashboardTopBar />
+
         <SidebarProvider>
           <AppSidebar />
           <main className="w-full">
