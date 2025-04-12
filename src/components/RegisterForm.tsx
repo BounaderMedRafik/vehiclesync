@@ -1,6 +1,5 @@
 "use client";
 
-import { signIn } from "next-auth/react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
@@ -20,54 +19,79 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
+  CardFooter,
 } from "@/components/ui/card";
 import Link from "next/link";
+import { toast } from "sonner";
 
-// Define the form schema with Zod for validation
 const formSchema = z.object({
   username: z.string().min(1, { message: "Username is required" }),
-  password: z.string().min(1, { message: "Password is required" }),
+  email: z
+    .string()
+    .email({ message: "Invalid email address" })
+    .optional()
+    .or(z.literal("")),
+  password: z
+    .string()
+    .min(6, { message: "Password must be at least 6 characters" }),
 });
 
-export default function SignIn() {
+const RegisterForm = () => {
   const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
-  // Initialize the form with react-hook-form and Zod
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       username: "",
+      email: "",
       password: "",
     },
   });
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    setIsLoading(true);
     setError("");
 
-    const result = await signIn("credentials", {
-      redirect: false,
-      username: values.username,
-      password: values.password,
-    });
+    try {
+      const response = await fetch("/api/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          username: values.username,
+          email: values.email || null,
+          password: values.password,
+        }),
+      });
 
-    if (result?.error) {
-      setError("Invalid username or password");
-    } else {
+      if (!response.ok) {
+        const data = await response.json();
+        if (data.message) {
+          setError(data.message);
+          toast(data.message);
+          return;
+        }
+      }
+      toast("Registration successful! Please sign in.");
       router.push("/");
+    } catch (error) {
+      console.log(error);
+      setError("An error occurred during registration. Please try again.");
+      toast("Registration failed. Please try again.");
+    } finally {
+      setIsLoading(false);
     }
   };
-
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-100">
+    <>
       <Card className="w-full max-w-md">
         <CardHeader>
-          <CardTitle>Sign In to VehicleSync</CardTitle>
+          <CardTitle>Register for VehicleSync</CardTitle>
           <CardDescription>
-            Enter your credentials to access your account.
+            Create an account to start tracking your vehicle maintenance.
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -81,6 +105,23 @@ export default function SignIn() {
                     <FormLabel>Username</FormLabel>
                     <FormControl>
                       <Input placeholder="Enter your username" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Email (optional)</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="email"
+                        placeholder="Enter your email"
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -104,24 +145,27 @@ export default function SignIn() {
                 )}
               />
               {error && <p className="text-sm text-red-600">{error}</p>}
-              <Button type="submit" className="w-full">
-                Sign In
+              <Button
+                type="submit"
+                className="w-full hover:cursor-pointer"
+                disabled={isLoading}
+              >
+                {isLoading ? "Registering..." : "Register"}
               </Button>
             </form>
           </Form>
         </CardContent>
         <CardFooter className="flex justify-center">
-          <p className="text-sm text-gray-400">
-            Don’t have an account?{" "}
-            <Link
-              href="/auth/register"
-              className="text-blue-400 hover:underline"
-            >
-              Register
+          <p className="text-sm">
+            Already have an account?{" "}
+            <Link href="/" className="text-blue-700 underline">
+              Sign In
             </Link>
           </p>
         </CardFooter>
       </Card>
-    </div>
+    </>
   );
-}
+};
+
+export default RegisterForm;

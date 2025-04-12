@@ -1,9 +1,9 @@
 import { NextResponse } from "next/server";
-import { PrismaClient } from "@prisma/client";
 import { saltAndHashPassword } from "@/lib/password";
-const prisma = new PrismaClient();
-
+import UserRepository from "@/repositories/UserRepository";
+import { randomUUID } from "crypto";
 export async function POST(request: Request) {
+  const userRepository = new UserRepository();
   try {
     console.log("Registering user...");
     const { username, email, password } = await request.json();
@@ -17,9 +17,7 @@ export async function POST(request: Request) {
       );
     }
 
-    const userByUsername = await prisma.user.findUnique({
-      where: { username },
-    });
+    const userByUsername = await userRepository.getByUserName(username);
 
     if (userByUsername) {
       return NextResponse.json(
@@ -29,9 +27,7 @@ export async function POST(request: Request) {
     }
 
     if (email) {
-      const userByEmail = await prisma.user.findUnique({
-        where: { email },
-      });
+      const userByEmail = await userRepository.getByEmail(email);
       if (userByEmail) {
         return NextResponse.json(
           { error: "Email already exists" },
@@ -42,13 +38,15 @@ export async function POST(request: Request) {
 
     const hashedPassword = await saltAndHashPassword(password);
 
-    const user = await prisma.user.create({
-      data: {
-        username,
-        email: email || null,
-        password: hashedPassword,
-      },
+    const user = await userRepository.create({
+      id: randomUUID(),
+      username,
+      email: email || null,
+      password: hashedPassword,
+      createdAt: new Date(Date.now()),
+      updatedAt: new Date(Date.now()),
     });
+
     if (!user) {
       return NextResponse.json(
         { error: "Failed to create user" },
@@ -66,7 +64,5 @@ export async function POST(request: Request) {
       { error: "Failed to create user" },
       { status: 500 }
     );
-  } finally {
-    await prisma.$disconnect();
   }
 }
