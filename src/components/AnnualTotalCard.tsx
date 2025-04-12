@@ -9,7 +9,7 @@ interface AnnualTotalCardProps extends ComponentProps<"div"> {
 const AnnualTotalCard = (props: AnnualTotalCardProps) => {
   return (
     <Card className={cn(props.className, "")}>
-      <CardHeader className="text-center text-2xl">
+      <CardHeader className="text-center text-2xl font-semibold">
         YTD Total Expenses
       </CardHeader>
       <CardContent className="flex justify-center items-center h-full">

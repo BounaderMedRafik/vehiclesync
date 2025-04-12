@@ -9,6 +9,15 @@ const MAX_RECORDS_LIMIT = 100;
 export default abstract class BaseRepository<T> {
   constructor(protected modelClient: PrismaClient) {}
 
+  protected getYTDDateRange() {
+    const now = new Date(Date.now());
+    const startOfYear = new Date(now.getFullYear(), 0, 1); // January 1st
+    return {
+      gte: startOfYear,
+      lte: now,
+    };
+  }
+
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   getAll(options: Record<string, any> = {}): Promise<Array<T>> {
     if (!options.orderBy) {

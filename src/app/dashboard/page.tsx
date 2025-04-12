@@ -8,6 +8,7 @@ import React from "react";
 import { redirect } from "next/navigation";
 import { getVehicleExpenseData } from "@/services/VehicleService";
 import VehicleRepository from "@/repositories/VehicleRepository";
+import { getChartData } from "@/services/ChartDataService";
 
 const DashboardHome = async () => {
   const maintenanceRecordRepository = new MaintenanceRecordRepository();
@@ -27,13 +28,19 @@ const DashboardHome = async () => {
   const ytdTotal = await maintenanceRecordRepository.getYTDTotalByUser(
     session?.user?.id as string
   );
+  const chartData = await getChartData(vehicles);
+
+  console.log(chartData);
 
   return (
     <>
       <h1 className="text-center">Home</h1>
       <div className="size-full grid gap-8 grid-cols-1 md:grid-cols-2 grid-rows-3 p-12">
         <AnnualTotalCard className="col-span-1" ytdTotal={ytdTotal} />
-        <CostByCategoryChart className="col-start-1 row-start-2 row-span-2" />
+        <CostByCategoryChart
+          className="col-start-1 row-start-2 row-span-2"
+          chartData={chartData}
+        />
         <ExpenseByVehicle
           className="col-start-2 row-span-3"
           vehicleData={vehicleData}

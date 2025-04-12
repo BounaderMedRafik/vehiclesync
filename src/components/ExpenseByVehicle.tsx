@@ -11,7 +11,7 @@ interface ExpenseByVehicleProps extends ComponentProps<"div"> {
 const ExpenseByVehicle = (props: ExpenseByVehicleProps) => {
   return (
     <Card className={cn(props.className, "")}>
-      <CardHeader className="text-center text-2xl">
+      <CardHeader className="text-center text-2xl font-semibold">
         YTD Expense By Vehicle
       </CardHeader>
       <CardContent className="flex flex-col justify-start items-center h-full">

@@ -2,13 +2,7 @@
 
 import { Pie, PieChart } from "recharts";
 
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   ChartConfig,
   ChartContainer,
@@ -17,46 +11,38 @@ import {
 } from "@/components/ui/chart";
 import { ComponentProps } from "react";
 import { cn } from "@/lib/utils";
-const chartData = [
-  { browser: "chrome", visitors: 275, fill: "var(--color-chrome)" },
-  { browser: "safari", visitors: 200, fill: "var(--color-safari)" },
-  { browser: "firefox", visitors: 187, fill: "var(--color-firefox)" },
-  { browser: "edge", visitors: 173, fill: "var(--color-edge)" },
-  { browser: "other", visitors: 90, fill: "var(--color-other)" },
-];
 
 const chartConfig = {
-  visitors: {
-    label: "Visitors",
-  },
-  chrome: {
-    label: "Chrome",
+  "Oil Change": {
+    label: "Oil Change",
     color: "hsl(var(--chart-1))",
   },
-  safari: {
-    label: "Safari",
+  Brakes: {
+    label: "Brakes",
     color: "hsl(var(--chart-2))",
   },
-  firefox: {
-    label: "Firefox",
+  Tires: {
+    label: "Tires",
     color: "hsl(var(--chart-3))",
   },
-  edge: {
-    label: "Edge",
+  Repair: {
+    label: "Repair",
     color: "hsl(var(--chart-4))",
-  },
-  other: {
-    label: "Other",
-    color: "hsl(var(--chart-5))",
   },
 } satisfies ChartConfig;
 
-export function CostByCategoryChart(props: ComponentProps<"div">) {
+interface CostByCategoryChartProps extends ComponentProps<"div"> {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  chartData: any[];
+}
+
+export function CostByCategoryChart(props: CostByCategoryChartProps) {
   return (
     <Card className={cn(props.className, "flex flex-col")}>
       <CardHeader className="items-center pb-0">
-        <CardTitle>Pie Chart - Legend</CardTitle>
-        <CardDescription>January - June 2024</CardDescription>
+        <CardTitle className="text-2xl text-center">
+          Expense By Category (YTD)
+        </CardTitle>
       </CardHeader>
       <CardContent className="flex-1 pb-0">
         <ChartContainer
@@ -64,9 +50,9 @@ export function CostByCategoryChart(props: ComponentProps<"div">) {
           className="mx-auto aspect-square max-h-[300px]"
         >
           <PieChart>
-            <Pie data={chartData} dataKey="visitors" />
+            <Pie data={props.chartData} dataKey="amount" />
             <ChartLegend
-              content={<ChartLegendContent nameKey="browser" />}
+              content={<ChartLegendContent nameKey="maintType" />}
               className="-translate-y-2 flex-wrap gap-2 [&>*]:basis-1/4 [&>*]:justify-center"
             />
           </PieChart>
