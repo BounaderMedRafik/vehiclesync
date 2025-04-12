@@ -3,7 +3,7 @@ import BaseRepository from "./BaseRepository";
 import { MaintenanceRecord } from "@prisma/client";
 import VehicleRepository from "./VehicleRepository";
 
-export default class UserRepository extends BaseRepository<MaintenanceRecord> {
+export default class MaintenanceRecordRepository extends BaseRepository<MaintenanceRecord> {
   private vehicleRepository;
   constructor() {
     super(prisma.maintenanceRecord);
