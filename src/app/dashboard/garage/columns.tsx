@@ -1,5 +1,6 @@
 "use client";
 
+import { AddRecordDialog } from "@/components/AddRecordDialog";
 import DeleteVehicleAlertDialog from "@/components/DeleteVehicleAlertDialog";
 import { EditVehicleDialog } from "@/components/EditVehicleDialog";
 import { Vehicle } from "@prisma/client";
@@ -24,6 +25,7 @@ export const columns: ColumnDef<Vehicle>[] = [
       const vehicle = row.original;
       return (
         <div className="flex space-x-2 justify-end">
+          <AddRecordDialog vehicle={vehicle} />
           <EditVehicleDialog vehicle={vehicle} />
           <DeleteVehicleAlertDialog vehicleId={vehicle.id} />
         </div>

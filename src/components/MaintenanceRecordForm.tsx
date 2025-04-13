@@ -21,7 +21,7 @@ import {
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { MaintenanceRecord, Vehicle } from "@prisma/client";
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import Link from "next/link";
 import { CalendarIcon } from "lucide-react";
 import { format } from "date-fns";
@@ -50,23 +50,26 @@ interface MaintenanceType {
 }
 
 interface MaintenanceRecordFormProps {
-  vehicles: Vehicle[];
+  vehicle?: Vehicle;
+  vehicles?: Vehicle[];
   maintenanceRecord?: MaintenanceRecord;
-  maintenanceTypes: MaintenanceType[];
   setOpen: Dispatch<SetStateAction<boolean>>;
 }
 
 export function MaintenanceRecordForm({
   setOpen,
+  vehicle,
   vehicles,
   maintenanceRecord,
-  maintenanceTypes,
 }: MaintenanceRecordFormProps) {
+  const [maintenanceTypes, setMaintenanceTypes] = useState<MaintenanceType[]>(
+    []
+  );
   const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      vehicleId: maintenanceRecord?.vehicleId || "",
+      vehicleId: vehicle?.id || maintenanceRecord?.vehicleId || "",
       maintenanceTypeId: maintenanceRecord?.maintenanceTypeId || "",
       date: maintenanceRecord?.date || new Date(),
       mileage: maintenanceRecord?.mileage || 0,
@@ -75,6 +78,19 @@ export function MaintenanceRecordForm({
       amount: maintenanceRecord?.amount || 0,
     },
   });
+
+  useEffect(() => {
+    const fetchMaintenanceTypes = async () => {
+      try {
+        const response = await fetch("/api/maintenance-types");
+        const data = await response.json();
+        setMaintenanceTypes(data);
+      } catch (error) {
+        console.error("Error fetching maintenance types:", error);
+      }
+    };
+    fetchMaintenanceTypes();
+  }, []);
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     if (maintenanceRecord) {
@@ -112,7 +128,7 @@ export function MaintenanceRecordForm({
     setOpen(false);
   }
 
-  if (vehicles.length === 0) {
+  if (vehicles?.length === 0 || !vehicle) {
     return (
       <div className="p-4 flex justify-center items-center w-full">
         <p>
@@ -145,11 +161,17 @@ export function MaintenanceRecordForm({
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  {vehicles.map((vehicle) => (
-                    <SelectItem key={vehicle.id} value={vehicle.id}>
+                  {vehicle ? (
+                    <SelectItem value={vehicle.id}>
                       {vehicle.year} {vehicle.make} {vehicle.model}
                     </SelectItem>
-                  ))}
+                  ) : (
+                    vehicles?.map((vehicle) => (
+                      <SelectItem key={vehicle.id} value={vehicle.id}>
+                        {vehicle.year} {vehicle.make} {vehicle.model}
+                      </SelectItem>
+                    ))
+                  )}
                 </SelectContent>
               </Select>
               <FormMessage />

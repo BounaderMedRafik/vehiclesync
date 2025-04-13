@@ -13,15 +13,13 @@ import { MaintenanceRecord, MaintenanceType, Vehicle } from "@prisma/client";
 import { useState } from "react";
 
 interface AddRecordDialogProps {
-  vehicles: Vehicle[];
-  maintenanceTypes: MaintenanceType[];
+  vehicle?: Vehicle;
+  vehicles?: Vehicle[];
+  maintenanceTypes?: MaintenanceType[];
   maintenanceRecord?: MaintenanceRecord;
 }
 
-export function AddRecordDialog({
-  vehicles,
-  maintenanceTypes,
-}: AddRecordDialogProps) {
+export function AddRecordDialog({ vehicle, vehicles }: AddRecordDialogProps) {
   const [open, setOpen] = useState(false);
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -35,8 +33,8 @@ export function AddRecordDialog({
         <div className="flex items-center space-x-2">
           <MaintenanceRecordForm
             setOpen={setOpen}
+            vehicle={vehicle}
             vehicles={vehicles}
-            maintenanceTypes={maintenanceTypes}
           />
         </div>
       </DialogContent>
