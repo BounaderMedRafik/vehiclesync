@@ -1,8 +1,8 @@
 "use client";
 
 import { AddVehicleDialog } from "@/components/AddVehicleDialog";
+import DeleteVehicleAlertDialog from "@/components/DeleteVehicleAlertDialog";
 import { EditVehicleDialog } from "@/components/EditVehicleDialog";
-import { Button } from "@/components/ui/button";
 import { Vehicle } from "@prisma/client";
 import { ColumnDef } from "@tanstack/react-table";
 
@@ -32,7 +32,7 @@ export const columns: ColumnDef<Vehicle>[] = [
       return (
         <div className="flex space-x-2 justify-end">
           <EditVehicleDialog vehicle={vehicle} />
-          <Button variant="destructive">Delete</Button>
+          <DeleteVehicleAlertDialog vehicleId={vehicle.id} />
         </div>
       );
     },

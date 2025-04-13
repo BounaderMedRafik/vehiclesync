@@ -19,7 +19,7 @@ const GaragePage = async () => {
     <>
       <h1 className="text-center">Garage</h1>
       <div className="flex justify-center w-full">
-        <DataTable className="min-w-2xl" columns={columns} data={vehicles} />
+        <DataTable className="md:min-w-3xl" columns={columns} data={vehicles} />
       </div>
     </>
   );
