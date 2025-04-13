@@ -22,7 +22,7 @@ const ExpenseByVehicle = (props: ExpenseByVehicleProps) => {
                 <p>{data.vehicleName}</p>
                 <p>${data.vehicleTotal}</p>
               </div>
-              <Separator className="bg-accent" orientation="horizontal" />
+              <Separator className="bg-foreground" orientation="horizontal" />
             </div>
           );
         })}

@@ -9,9 +9,12 @@ import { redirect } from "next/navigation";
 import { getVehicleExpenseData } from "@/services/VehicleService";
 import VehicleRepository from "@/repositories/VehicleRepository";
 import { getChartData } from "@/services/ChartDataService";
+import { AddRecordDialog } from "@/components/AddRecordDialog";
+import MaintenanceTypeRepository from "@/repositories/MaintenanceTypeRepository";
 
 const DashboardHome = async () => {
   const maintenanceRecordRepository = new MaintenanceRecordRepository();
+  const maintenanceTypeRepository = new MaintenanceTypeRepository();
   const vehicleRepository = new VehicleRepository();
   const session = await auth();
 
@@ -30,11 +33,16 @@ const DashboardHome = async () => {
   );
   const chartData = await getChartData(vehicles);
 
-  console.log(chartData);
+  const maintTypes = await maintenanceTypeRepository.getAll();
 
   return (
     <>
-      <h1 className="text-center">Home</h1>
+      <div className="flex w-full px-12 justify-between items-center">
+        <h1 className="flex-1 text-center">Home</h1>
+        <div className="">
+          <AddRecordDialog vehicles={vehicles} maintenanceTypes={maintTypes} />
+        </div>
+      </div>
       <div className="size-full grid gap-8 grid-cols-1 md:grid-cols-2 grid-rows-3 p-12">
         <AnnualTotalCard className="col-span-1" ytdTotal={ytdTotal} />
         <CostByCategoryChart
