@@ -6,10 +6,12 @@ import MaintenanceRecordRepository from "@/repositories/MaintenanceRecordReposit
 import { columns } from "./columns";
 import RecordDataTable from "@/components/RecordDataTable";
 import { MaintenanceRecordWithType } from "@/models/MaintenanceRecordWithType";
+import MaintenanceTypeRepository from "@/repositories/MaintenanceTypeRepository";
 
 const ReportsPage = async () => {
   const vehicleRepository = new VehicleRepository();
   const maintenanceRecordRepository = new MaintenanceRecordRepository();
+  const maintenanceTypeRepository = new MaintenanceTypeRepository();
   const session = await auth();
 
   if (!session?.user) redirect("/");
@@ -21,11 +23,14 @@ const ReportsPage = async () => {
   const maintRecords: MaintenanceRecordWithType[] =
     await maintenanceRecordRepository.getAllWithMaintenanceType();
 
+  const maintTypes = await maintenanceTypeRepository.getAll();
+
   return (
     <RecordDataTable
       data={maintRecords}
       columns={columns}
       vehicles={vehicles}
+      maintenanceTypes={maintTypes}
     />
   );
 };

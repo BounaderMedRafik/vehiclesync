@@ -4,7 +4,7 @@ import React, { ComponentProps, useState } from "react";
 import { DataTable } from "./DataTable";
 import { ColumnDef } from "@tanstack/react-table";
 import { MaintenanceRecordWithType } from "@/models/MaintenanceRecordWithType";
-import { Vehicle } from "@prisma/client";
+import { MaintenanceType, Vehicle } from "@prisma/client";
 import {
   Select,
   SelectContent,
@@ -12,17 +12,20 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { AddRecordDialog } from "./AddRecordDialog";
 
 interface RecordDataTableProps<TData, TValue> extends ComponentProps<"table"> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
   vehicles: Vehicle[];
+  maintenanceTypes: MaintenanceType[];
 }
 
 const RecordDataTable = ({
   data,
   columns,
   vehicles,
+  maintenanceTypes,
 }: RecordDataTableProps<MaintenanceRecordWithType, unknown>) => {
   const [selectedVehicleId, setSelectedVehicleId] = useState<string | null>(
     vehicles.length > 0 ? "all" : null
@@ -39,22 +42,28 @@ const RecordDataTable = ({
         <h1 className="text-2xl font-bold text-center sm:text-left">
           Maintenance Reports
         </h1>
-        <Select
-          onValueChange={setSelectedVehicleId}
-          value={selectedVehicleId || undefined}
-        >
-          <SelectTrigger className="w-full sm:w-[200px]">
-            <SelectValue placeholder="Select a vehicle" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">All Vehicles</SelectItem>
-            {vehicles.map((vehicle) => (
-              <SelectItem key={vehicle.id} value={vehicle.id}>
-                {vehicle.make} {vehicle.model} ({vehicle.year})
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
+        <div className="flex items-center space-x-4">
+          <Select
+            onValueChange={setSelectedVehicleId}
+            value={selectedVehicleId || undefined}
+          >
+            <SelectTrigger className="w-full sm:w-[200px]">
+              <SelectValue placeholder="Select a vehicle" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">All Vehicles</SelectItem>
+              {vehicles.map((vehicle) => (
+                <SelectItem key={vehicle.id} value={vehicle.id}>
+                  {vehicle.make} {vehicle.model} ({vehicle.year})
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          <AddRecordDialog
+            vehicles={vehicles}
+            maintenanceTypes={maintenanceTypes}
+          />
+        </div>
       </div>
       <div className="px-4 sm:px-6 lg:px-8">
         <DataTable className="w-full" columns={columns} data={filteredData} />
