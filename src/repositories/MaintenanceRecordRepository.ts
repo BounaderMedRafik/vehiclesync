@@ -89,8 +89,16 @@ export default class MaintenanceRecordRepository extends BaseRepository<Maintena
     return total;
   }
 
-  async getAllWithMaintenanceType(): Promise<MaintenanceRecordWithType[]> {
+  async getAllWithMaintenanceType(
+    vehicles: Vehicle[]
+  ): Promise<MaintenanceRecordWithType[]> {
+    const vehicleIds = vehicles.map((veh) => veh.id);
     const results = await this.getAll({
+      where: {
+        vehicleId: {
+          in: vehicleIds,
+        },
+      },
       include: {
         maintenanceType: true,
       },

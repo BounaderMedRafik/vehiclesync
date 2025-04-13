@@ -21,7 +21,7 @@ const ReportsPage = async () => {
   );
 
   const maintRecords: MaintenanceRecordWithType[] =
-    await maintenanceRecordRepository.getAllWithMaintenanceType();
+    await maintenanceRecordRepository.getAllWithMaintenanceType(vehicles);
 
   const maintTypes = await maintenanceTypeRepository.getAll();
 

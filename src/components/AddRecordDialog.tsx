@@ -28,7 +28,7 @@ export function AddRecordDialog({
       <DialogTrigger asChild>
         <Button>Add New Record</Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-2xl overflow-auto p-4 h-[80vh]">
+      <DialogContent className="sm:max-w-2xl overflow-auto p-4">
         <DialogHeader>
           <DialogTitle>Add Maintenance Record</DialogTitle>
         </DialogHeader>

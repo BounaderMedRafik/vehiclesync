@@ -69,9 +69,9 @@ const RegisterForm = () => {
 
       if (!response.ok) {
         const data = await response.json();
-        if (data.message) {
-          setError(data.message);
-          toast(data.message);
+        if (data.error) {
+          setError(data.error);
+          toast(data.error);
           return;
         }
       }
