@@ -128,7 +128,7 @@ export function MaintenanceRecordForm({
     setOpen(false);
   }
 
-  if (vehicles?.length === 0 || !vehicle) {
+  if (vehicles?.length === 0 && !vehicle) {
     return (
       <div className="p-4 flex justify-center items-center w-full">
         <p>

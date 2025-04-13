@@ -2,16 +2,13 @@ import { auth } from "@/lib/auth";
 import MaintenanceTypeRepository from "@/repositories/MaintenanceTypeRepository";
 import { NextRequest } from "next/server";
 
-export async function GET(
-  request: NextRequest,
-  { params }: { params: { id: string } }
-) {
+export async function GET(request: NextRequest) {
   const session = await auth();
 
   if (!session?.user) {
     return new Response("Unauthorized", { status: 401 });
   }
-  const { id } = await params;
+  const { id } = await request.json();
 
   const maintenanceTypeRepository = new MaintenanceTypeRepository();
 

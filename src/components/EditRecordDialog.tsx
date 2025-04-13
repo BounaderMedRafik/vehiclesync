@@ -9,7 +9,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { MaintenanceRecordForm } from "./MaintenanceRecordForm";
-import { MaintenanceRecord, MaintenanceType, Vehicle } from "@prisma/client";
+import { MaintenanceRecord, Vehicle } from "@prisma/client";
 import { useEffect, useState } from "react";
 
 interface EditRecordDialogProps {
@@ -18,9 +18,7 @@ interface EditRecordDialogProps {
 
 export function EditRecordDialog({ maintenanceRecord }: EditRecordDialogProps) {
   const [vehicles, setVehicles] = useState<Vehicle[]>([]);
-  const [maintenanceTypes, setMaintenanceTypes] = useState<MaintenanceType[]>(
-    []
-  );
+
   useEffect(() => {
     const fetchVehicles = async () => {
       try {
@@ -38,18 +36,7 @@ export function EditRecordDialog({ maintenanceRecord }: EditRecordDialogProps) {
       }
     };
 
-    const fetchMaintenanceTypes = async () => {
-      try {
-        const response = await fetch("/api/maintenance-types");
-        const data = await response.json();
-        setMaintenanceTypes(data);
-      } catch (error) {
-        console.error("Error fetching maintenance types:", error);
-      }
-    };
-
     fetchVehicles();
-    fetchMaintenanceTypes();
   }, []);
 
   const [open, setOpen] = useState(false);
@@ -66,7 +53,6 @@ export function EditRecordDialog({ maintenanceRecord }: EditRecordDialogProps) {
           <MaintenanceRecordForm
             setOpen={setOpen}
             vehicles={vehicles}
-            maintenanceTypes={maintenanceTypes}
             maintenanceRecord={maintenanceRecord}
           />
         </div>
