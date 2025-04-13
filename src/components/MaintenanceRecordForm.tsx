@@ -79,6 +79,21 @@ export function MaintenanceRecordForm({
   async function onSubmit(values: z.infer<typeof formSchema>) {
     if (maintenanceRecord) {
       console.log("Updating maintenance record");
+      const response = await fetch(`/api/maintenance-record/edit`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          id: maintenanceRecord.id,
+          maintRecord: values,
+        }),
+      });
+      if (response.ok) {
+        toast("Maintenance record updated successfully");
+        router.refresh();
+        setOpen(false);
+      } else {
+        toast("Error updating maintenance record");
+      }
     } else {
       const response = await fetch(`/api/maintenance-record/add`, {
         method: "POST",
@@ -99,10 +114,13 @@ export function MaintenanceRecordForm({
 
   if (vehicles.length === 0) {
     return (
-      <div>
+      <div className="p-4 flex justify-center items-center w-full">
         <p>
           No vehicles found. Please add a vehicle to your{" "}
-          <Link href="/dashboard/garage">garage</Link> first.
+          <Link className="underline text-blue-500" href="/dashboard/garage">
+            garage
+          </Link>{" "}
+          first.
         </p>
       </div>
     );

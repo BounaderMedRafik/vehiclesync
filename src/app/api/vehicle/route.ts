@@ -1,7 +1,7 @@
 import { auth } from "@/lib/auth";
 import VehicleRepository from "@/repositories/VehicleRepository";
 
-export default async function GET() {
+export async function GET() {
   const session = await auth();
 
   if (!session?.user) {

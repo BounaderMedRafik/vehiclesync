@@ -10,6 +10,8 @@ import {
 } from "@/components/ui/popover";
 import { format } from "date-fns";
 import { MaintenanceRecordWithType } from "@/models/MaintenanceRecordWithType";
+import { EditRecordDialog } from "@/components/EditRecordDialog";
+import DeleteRecordAlertDialog from "@/components/DeleteRecordAlertDialog";
 
 export function formatDate(dateString: string): string {
   const date = new Date(dateString);
@@ -34,26 +36,8 @@ export const columns: ColumnDef<MaintenanceRecordWithType>[] = [
           </PopoverTrigger>
           <PopoverContent className="w-40">
             <div className="grid gap-2">
-              <Button
-                variant="ghost"
-                className="justify-start"
-                onClick={() => {
-                  // Handle Edit action
-                  console.log(`Edit record: ${record.id}`);
-                }}
-              >
-                Edit
-              </Button>
-              <Button
-                variant="ghost"
-                className="justify-start text-destructive"
-                onClick={() => {
-                  // Handle Delete action
-                  console.log(`Delete record: ${record.id}`);
-                }}
-              >
-                Delete
-              </Button>
+              <EditRecordDialog maintenanceRecord={record} />
+              <DeleteRecordAlertDialog mRecordId={record.id} />
             </div>
           </PopoverContent>
         </Popover>
