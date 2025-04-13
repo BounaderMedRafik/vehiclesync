@@ -1,6 +1,5 @@
 "use client";
 
-import { AddVehicleDialog } from "@/components/AddVehicleDialog";
 import DeleteVehicleAlertDialog from "@/components/DeleteVehicleAlertDialog";
 import { EditVehicleDialog } from "@/components/EditVehicleDialog";
 import { Vehicle } from "@prisma/client";
@@ -9,6 +8,7 @@ import { ColumnDef } from "@tanstack/react-table";
 export const columns: ColumnDef<Vehicle>[] = [
   {
     header: "Vehicle",
+    accessorFn: (row) => row.year + " " + row.model + " " + row.make,
     cell: ({ row }) => {
       const vehicle = row.original;
       return (
@@ -20,13 +20,6 @@ export const columns: ColumnDef<Vehicle>[] = [
   },
   {
     id: "actions",
-    header: () => {
-      return (
-        <div className="flex justify-end">
-          <AddVehicleDialog />
-        </div>
-      );
-    },
     cell: ({ row }) => {
       const vehicle = row.original;
       return (
