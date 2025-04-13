@@ -26,7 +26,7 @@ export default async function RootLayout({
 
           <SidebarProvider>
             <AppSidebar />
-            <main className="w-full">
+            <main className="w-full pb-4">
               <SidebarTrigger />
               {children}
               <Toaster />

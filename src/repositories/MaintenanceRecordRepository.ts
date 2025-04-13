@@ -4,6 +4,7 @@ import { MaintenanceRecord, Vehicle } from "@prisma/client";
 import VehicleRepository from "./VehicleRepository";
 import MaintenanceTypeRepository from "./MaintenanceTypeRepository";
 import { MaintenanceTypeName } from "@/types/MaintenanceTypeName";
+import { MaintenanceRecordWithType } from "@/models/MaintenanceRecordWithType";
 
 export default class MaintenanceRecordRepository extends BaseRepository<MaintenanceRecord> {
   private vehicleRepository;
@@ -86,5 +87,28 @@ export default class MaintenanceRecordRepository extends BaseRepository<Maintena
     }
 
     return total;
+  }
+
+  async getAllWithMaintenanceType(): Promise<MaintenanceRecordWithType[]> {
+    const results = await this.getAll({
+      include: {
+        maintenanceType: true,
+      },
+    });
+    return results as MaintenanceRecordWithType[];
+  }
+
+  async getAllByVehicleWithMaintenanceType(
+    vehicleId: string
+  ): Promise<MaintenanceRecordWithType[]> {
+    const results = await this.getAll({
+      where: {
+        vehicleId,
+      },
+      include: {
+        maintenanceType: true,
+      },
+    });
+    return results as MaintenanceRecordWithType[];
   }
 }

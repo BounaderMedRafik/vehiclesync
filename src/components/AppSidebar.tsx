@@ -24,7 +24,7 @@ const items = [
   },
   {
     title: "Reports",
-    url: "#",
+    url: "/dashboard/reports",
     icon: Newspaper,
   },
 ];

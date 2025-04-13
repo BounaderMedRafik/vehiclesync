@@ -19,7 +19,7 @@ const DashboardHome = async () => {
   const session = await auth();
 
   if (!session?.user) redirect("/");
-  //TODO: fetch this from a repository
+
   const vehicles = await vehicleRepository.getAllByUserId(
     session?.user?.id as string
   );
@@ -36,25 +36,23 @@ const DashboardHome = async () => {
   const maintTypes = await maintenanceTypeRepository.getAll();
 
   return (
-    <>
-      <div className="flex w-full px-12 justify-between items-center">
-        <h1 className="flex-1 text-center">Home</h1>
-        <div className="">
-          <AddRecordDialog vehicles={vehicles} maintenanceTypes={maintTypes} />
-        </div>
+    <div className="space-y-6">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 px-4 sm:px-6 lg:px-8">
+        <h1 className="text-2xl font-bold text-center sm:text-left">Home</h1>
+        <AddRecordDialog vehicles={vehicles} maintenanceTypes={maintTypes} />
       </div>
-      <div className="size-full grid gap-8 grid-cols-1 md:grid-cols-2 grid-rows-3 p-12">
+      <div className="grid gap-6 px-4 sm:px-6 lg:px-8 grid-cols-1 sm:grid-cols-2 auto-rows-fr">
         <AnnualTotalCard className="col-span-1" ytdTotal={ytdTotal} />
         <CostByCategoryChart
-          className="col-start-1 row-start-2 row-span-2"
+          className="col-span-1 sm:col-span-1 md:row-start-2"
           chartData={chartData}
         />
         <ExpenseByVehicle
-          className="col-start-2 row-span-3"
+          className="col-span-1 sm:col-span-1 md:col-start-2 md:row-span-2"
           vehicleData={vehicleData}
         />
       </div>
-    </>
+    </div>
   );
 };
 

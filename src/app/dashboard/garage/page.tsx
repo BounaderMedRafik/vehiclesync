@@ -16,12 +16,14 @@ const GaragePage = async () => {
   );
 
   return (
-    <>
-      <h1 className="text-center">Garage</h1>
-      <div className="flex justify-center w-full">
-        <DataTable className="md:min-w-3xl" columns={columns} data={vehicles} />
+    <div className="space-y-6">
+      <h1 className="text-2xl font-bold text-center sm:text-left px-4 sm:px-6 lg:px-8">
+        Garage
+      </h1>
+      <div className="px-4 sm:px-6 lg:px-8">
+        <DataTable className="w-full" columns={columns} data={vehicles} />
       </div>
-    </>
+    </div>
   );
 };
 
