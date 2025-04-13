@@ -4,6 +4,7 @@ import {
   ColumnDef,
   flexRender,
   getCoreRowModel,
+  getFilteredRowModel,
   useReactTable,
 } from "@tanstack/react-table";
 
@@ -15,22 +16,36 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { ComponentProps } from "react";
+import { ComponentProps, useEffect, useState } from "react";
 
 interface DataTableProps<TData, TValue> extends ComponentProps<"table"> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+  outsideFilter?: string;
 }
 
 export function DataTable<TData, TValue>({
   className,
   columns,
   data,
+  outsideFilter,
 }: DataTableProps<TData, TValue>) {
+  const [globalFilter, setGlobalFilter] = useState(outsideFilter ?? "");
+
+  useEffect(() => {
+    setGlobalFilter(outsideFilter ?? "");
+  }, [outsideFilter]);
+
   const table = useReactTable({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
+    globalFilterFn: "includesString",
+    onGlobalFilterChange: setGlobalFilter,
+    state: {
+      globalFilter,
+    },
   });
 
   return (

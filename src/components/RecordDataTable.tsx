@@ -13,6 +13,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { AddRecordDialog } from "./AddRecordDialog";
+import { Input } from "./ui/input";
 
 interface RecordDataTableProps<TData, TValue> extends ComponentProps<"table"> {
   columns: ColumnDef<TData, TValue>[];
@@ -27,6 +28,7 @@ const RecordDataTable = ({
   vehicles,
   maintenanceTypes,
 }: RecordDataTableProps<MaintenanceRecordWithType, unknown>) => {
+  const [outsideFilter, setOutsideFilter] = useState("");
   const [selectedVehicleId, setSelectedVehicleId] = useState<string | null>(
     vehicles.length > 0 ? "all" : null
   );
@@ -43,6 +45,20 @@ const RecordDataTable = ({
           Maintenance Reports
         </h1>
         <div className="flex items-center space-x-4">
+          <AddRecordDialog
+            vehicles={vehicles}
+            maintenanceTypes={maintenanceTypes}
+          />
+        </div>
+      </div>
+      <div className="px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between">
+          <Input
+            className="max-w-md mb-2"
+            value={outsideFilter}
+            onChange={(e) => setOutsideFilter(e.target.value)}
+            placeholder="Search"
+          />
           <Select
             onValueChange={setSelectedVehicleId}
             value={selectedVehicleId || undefined}
@@ -59,14 +75,13 @@ const RecordDataTable = ({
               ))}
             </SelectContent>
           </Select>
-          <AddRecordDialog
-            vehicles={vehicles}
-            maintenanceTypes={maintenanceTypes}
-          />
         </div>
-      </div>
-      <div className="px-4 sm:px-6 lg:px-8">
-        <DataTable className="w-full" columns={columns} data={filteredData} />
+        <DataTable
+          className="w-full"
+          columns={columns}
+          data={filteredData}
+          outsideFilter={outsideFilter}
+        />
       </div>
     </div>
   );
