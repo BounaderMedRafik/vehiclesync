@@ -60,9 +60,11 @@ function Calendar({
         ...classNames,
       }}
       components={{
+        //@ts-expect-error this is an error in our upstream 3rd party library
         IconLeft: ({ className, ...props }) => (
           <ChevronLeft className={cn("size-4", className)} {...props} />
         ),
+        //@ts-expect-error this is an error in our upstream 3rd party library
         IconRight: ({ className, ...props }) => (
           <ChevronRight className={cn("size-4", className)} {...props} />
         ),
