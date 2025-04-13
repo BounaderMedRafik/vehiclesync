@@ -1,5 +1,5 @@
 import AnnualTotalCard from "@/components/AnnualTotalCard";
-import { CostByCategoryChart } from "@/components/CostByCategoryChart";
+import { ExpenseByCategoryChart } from "@/components/ExpenseByCategoryChart";
 import ExpenseByVehicle from "@/components/ExpenseByVehicle";
 import { auth } from "@/lib/auth";
 import { VehicleExpenseData } from "@/models/VehicleExpenseData";
@@ -43,9 +43,10 @@ const DashboardHome = async () => {
       </div>
       <div className="grid gap-6 px-4 sm:px-6 lg:px-8 grid-cols-1 sm:grid-cols-2 auto-rows-fr">
         <AnnualTotalCard className="col-span-1" ytdTotal={ytdTotal} />
-        <CostByCategoryChart
+        <ExpenseByCategoryChart
           className="col-span-1 sm:col-span-1 md:row-start-2"
           chartData={chartData}
+          hasRecords={ytdTotal > 0}
         />
         <ExpenseByVehicle
           className="col-span-1 sm:col-span-1 md:col-start-2 md:row-span-2"
