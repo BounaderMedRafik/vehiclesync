@@ -2,7 +2,6 @@ import NextAuth, { NextAuthConfig } from "next-auth";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { prisma } from "@/data/prisma";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { saltAndHashPassword } from "@/lib/password";
 import { getUserFromDb } from "@/data/db-actions";
 import { toast } from "sonner";
 
@@ -20,11 +19,9 @@ export const authOptions: NextAuthConfig = {
           return null;
         }
 
-        const pwHash = saltAndHashPassword(credentials.password as string);
-
         const user = await getUserFromDb(
           credentials.username as string,
-          pwHash
+          credentials.password as string
         );
 
         if (!user) {
