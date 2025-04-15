@@ -6,6 +6,7 @@ import { AppSidebar } from "@/components/AppSidebar";
 import { auth } from "@/lib/auth";
 import { DashboardTopBar } from "@/components/DashboardTopBar";
 import { SessionProvider } from "next-auth/react";
+import NotAuthorized from "@/components/NotAuthorized";
 
 export const metadata: Metadata = {
   title: "Dashboard",
@@ -39,7 +40,9 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body className="antialiased">
-        <main>NOT AUTHORIZED</main>
+        <main>
+          <NotAuthorized />
+        </main>
         <Toaster />
       </body>
     </html>
