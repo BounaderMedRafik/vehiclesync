@@ -4,10 +4,7 @@ import UserRepository from "@/repositories/UserRepository";
 export async function POST(request: Request) {
   const userRepository = new UserRepository();
   try {
-    console.log("Registering user...");
     const { username, email, password } = await request.json();
-
-    console.log("Received data:", { username, email, password });
 
     if (!username || !password) {
       return NextResponse.json(
