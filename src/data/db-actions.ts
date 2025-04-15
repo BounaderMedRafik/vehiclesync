@@ -25,7 +25,7 @@ export async function getUserFromDb(
     }
 
     // Compare the password hash with the stored hash
-    const isMatch = comparePassword(user.password, passwordHash);
+    const isMatch = await comparePassword(user.password, passwordHash);
 
     if (!isMatch) {
       console.log(

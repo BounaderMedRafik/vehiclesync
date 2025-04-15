@@ -27,5 +27,7 @@ export async function comparePassword(
   // Compare the password with the hash
   const isMatch = await bcrypt.compare(password + PEPPER, hash);
 
+  console.log("password match: " + isMatch);
+
   return Promise.resolve(isMatch);
 }

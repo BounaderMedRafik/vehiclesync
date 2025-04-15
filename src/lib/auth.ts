@@ -4,6 +4,7 @@ import { prisma } from "@/data/prisma";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { saltAndHashPassword } from "@/lib/password";
 import { getUserFromDb } from "@/data/db-actions";
+import { toast } from "sonner";
 
 export const authOptions: NextAuthConfig = {
   adapter: PrismaAdapter(prisma),
@@ -19,8 +20,6 @@ export const authOptions: NextAuthConfig = {
           return null;
         }
 
-        console.log(`Passowrd: ${credentials.password}`);
-
         const pwHash = saltAndHashPassword(credentials.password as string);
 
         const user = await getUserFromDb(
@@ -29,6 +28,7 @@ export const authOptions: NextAuthConfig = {
         );
 
         if (!user) {
+          toast("Wrong password. Please try again");
           return null;
         }
 
