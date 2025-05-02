@@ -1,4 +1,4 @@
-Try it out[here](https://vehicle-sync.com).
+Try it out [here](https://vehicle-sync.com).
 
 # Vehicle Maintenance Tracker
 
