@@ -5,14 +5,13 @@ datasource db {
 
 generator client {
   provider = "prisma-client-js"
-  output   = "../src/data/generated/prisma/client"
 }
 
 model User {
   id        String    @id @default(cuid())
   username  String    @unique
   password  String
-  email     String    @unique
+  email     String?   @unique
   vehicles  Vehicle[]
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
