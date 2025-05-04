@@ -39,7 +39,6 @@ interface ExpenseByCategoryChartProps extends ComponentProps<"div"> {
 }
 
 export function ExpenseByCategoryChart(props: ExpenseByCategoryChartProps) {
-  console.log(props.chartData);
   return (
     <>
       <Card className={cn(props.className, "flex flex-col")}>
