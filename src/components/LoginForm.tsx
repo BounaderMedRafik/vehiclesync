@@ -33,6 +33,7 @@ const formSchema = z.object({
 
 export default function LoginForm() {
   const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
   // Initialize the form with react-hook-form and Zod
@@ -46,6 +47,7 @@ export default function LoginForm() {
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     setError("");
+    setIsLoading(true);
 
     const result = await signIn("credentials", {
       redirect: false,
@@ -53,6 +55,7 @@ export default function LoginForm() {
       password: values.password,
     });
 
+    setIsLoading(false);
     if (result?.error) {
       setError("Invalid username or password");
     } else {
@@ -99,8 +102,8 @@ export default function LoginForm() {
               )}
             />
             {error && <p className="text-sm text-red-600">{error}</p>}
-            <Button type="submit" className="w-full">
-              Sign In
+            <Button type="submit" className="w-full" disabled={isLoading}>
+              {isLoading ? "Signing In ... " : "Sign In"}
             </Button>
           </form>
         </Form>

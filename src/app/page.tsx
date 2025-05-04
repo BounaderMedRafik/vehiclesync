@@ -12,7 +12,7 @@ export default async function HomePage() {
 
   return (
     <div className="w-full h-[100vh] flex items-center justify-center bg-[url('/landing_page_bg.jpg')] bg-cover bg-no-repeat bg-center">
-      <div className="flex min-w-3xl items-center justify-center flex1 h-96">
+      <div className="flex flex-col md:flex-row md:min-w-3xl items-center justify-center flex1 h-96">
         <LandingPageInfoBlock />
         <LandingPageLoginBlock />
       </div>
