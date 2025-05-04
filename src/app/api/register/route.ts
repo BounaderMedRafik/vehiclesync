@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { saltAndHashPassword } from "@/lib/password";
 import UserRepository from "@/repositories/UserRepository";
-import { sendEmail } from "@/services/EmailService";
+import { sendWelcomeEmail } from "@/lib/emails";
 
 export async function POST(request: Request) {
   const userRepository = new UserRepository();
@@ -51,30 +51,10 @@ export async function POST(request: Request) {
 
     // Send welcome email using the template
     if (user.email) {
-      const subject = "Welcome to Our Service!";
-      const templateName = "welcome";
-      const context = { username: user.username };
-
-      try {
-        const emailSent = await sendEmail(
-          user.email,
-          subject,
-          templateName,
-          context
-        );
-        if (!emailSent) {
-          console.error(`Failed to send welcome email to ${user.email}`);
-        } else {
-          console.log(`Welcome email sent successfully to ${user.email}`);
-        }
-      } catch (emailError) {
-        // Correctly define emailError here
-        console.error(
-          `Error sending welcome email to ${user.email}:`,
-          emailError
-        );
-      }
+      await sendWelcomeEmail(user.email, user.username);
     }
+
+    console.log("User created successfully:", user);
 
     return NextResponse.json(
       { message: "User created successfully" },
