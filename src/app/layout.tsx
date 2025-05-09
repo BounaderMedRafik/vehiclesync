@@ -3,7 +3,7 @@ import { Toaster } from "@/components/ui/sonner";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "VehicleSync",
+  title: "SmartAuto",
   description: "Vehicle maintenance tracker",
 };
 

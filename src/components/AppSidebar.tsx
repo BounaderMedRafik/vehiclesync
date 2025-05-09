@@ -32,9 +32,14 @@ const items = [
 export function AppSidebar() {
   return (
     <Sidebar className="border-none">
-      <SidebarContent>
+      <SidebarContent className=" bg-background text-foreground border-r">
         <SidebarHeader>
-          <Image src={"/logo.png"} alt="Logo" width={300} height={150} />
+          <div className=" text-4xl font-bold mt-8 flex items-center gap-2">
+            <div>SmartAuto</div>
+            <div>
+              <Car size={24} />
+            </div>
+          </div>
         </SidebarHeader>
         <SidebarGroup>
           <SidebarGroupContent>

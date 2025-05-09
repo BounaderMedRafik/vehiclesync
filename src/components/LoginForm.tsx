@@ -66,7 +66,7 @@ export default function LoginForm() {
   return (
     <Card className="size-full">
       <CardHeader>
-        <CardTitle>Sign In to VehicleSync</CardTitle>
+        <CardTitle>Sign In to SmartAuto</CardTitle>
       </CardHeader>
       <CardContent>
         <Form {...form}>

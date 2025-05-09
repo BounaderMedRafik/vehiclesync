@@ -10,7 +10,7 @@ import NotAuthorized from "@/components/NotAuthorized";
 
 export const metadata: Metadata = {
   title: "Dashboard",
-  description: "The dashboard for VehicleSync",
+  description: "The dashboard for SmartAuto",
 };
 
 export default async function RootLayout({

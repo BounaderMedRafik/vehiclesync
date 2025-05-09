@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
 @import "tailwindcss";
 @import "tw-animate-css";
 
@@ -38,43 +39,40 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
-  /* Typography Variables */
-  --font-heading: "Impact", sans-serif;
-  --font-body: "Georgia", serif;
 }
 
 :root {
   --radius: 0.625rem;
-  --background: #faf9f6;
-  --foreground: #272838;
-  --card: #faf9f6;
-  --card-foreground: #272838;
-  --popover: #faf9f6;
-  --popover-foreground: #272838;
-  --primary: #067bc2;
-  --primary-foreground: #f5f7f6;
-  --secondary: #84bcda;
-  --secondary-foreground: #f5f7f6;
-  --muted: #faf9f6;
-  --muted-foreground: #272838;
-  --accent: #84bcda;
-  --accent-foreground: #272838;
-  --destructive: #e83151;
-  --border: #272838;
-  --input: #dedede;
-  --ring: #067bc2;
-  --chart-1: #067bc2;
-  --chart-2: #84bcda;
-  --chart-3: #e83151;
-  --chart-4: #272838;
-  --sidebar: #272838;
-  --sidebar-foreground: #ffffff;
-  --sidebar-primary: #067bc2;
-  --sidebar-primary-foreground: #f5f7f6;
-  --sidebar-accent: #84bcda;
-  --sidebar-accent-foreground: #f5f7f6;
-  --sidebar-border: #272838;
-  --sidebar-ring: #067bc2;
+  --background: #0e1b16; /* dark green-black */
+  --foreground: #e6f4ea; /* light greenish text */
+  --card: #13211c;
+  --card-foreground: #e6f4ea;
+  --popover: #13211c;
+  --popover-foreground: #e6f4ea;
+  --primary: #34c38f; /* vibrant green */
+  --primary-foreground: #0e1b16;
+  --secondary: #2f7e6c; /* desaturated green */
+  --secondary-foreground: #e6f4ea;
+  --muted: #1c2c26;
+  --muted-foreground: #a0b9ab;
+  --accent: #4cbfa6;
+  --accent-foreground: #0e1b16;
+  --destructive: #e05353;
+  --border: #335f4c;
+  --input: #28493b;
+  --ring: #34c38f;
+  --chart-1: #34c38f;
+  --chart-2: #4cbfa6;
+  --chart-3: #e05353;
+  --chart-4: #e6f4ea;
+  --sidebar: #1a2d27;
+  --sidebar-foreground: #e6f4ea;
+  --sidebar-primary: #34c38f;
+  --sidebar-primary-foreground: #0e1b16;
+  --sidebar-accent: #4cbfa6;
+  --sidebar-accent-foreground: #0e1b16;
+  --sidebar-border: #335f4c;
+  --sidebar-ring: #34c38f;
 }
 
 @layer base {
@@ -82,7 +80,7 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground font-body;
+    @apply bg-background text-foreground;
   }
   h1,
   h2,
@@ -90,7 +88,7 @@
   h4,
   h5,
   h6 {
-    @apply font-heading tracking-tight text-foreground;
+    @apply tracking-tight text-foreground;
   }
   h1 {
     @apply text-4xl md:text-5xl font-bold leading-tight mt-6 mb-4;

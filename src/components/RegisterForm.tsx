@@ -85,7 +85,7 @@ const RegisterForm = () => {
     <>
       <Card className="w-full max-w-md">
         <CardHeader>
-          <CardTitle>Register for VehicleSync</CardTitle>
+          <CardTitle>Register for SmartAuto</CardTitle>
           <CardDescription>
             Create an account to start tracking your vehicle maintenance.
           </CardDescription>
